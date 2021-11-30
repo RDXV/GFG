@@ -17,7 +17,58 @@ i=n gives error without modulus
 #include "iostream"
 using namespace std;
 
+bool isSum(int n, int arr[], int x);
 int main()
 {
   freopen("input.txt", "r", stdin);
+  freopen("output.txt", "w", stdout);
+  int a[100], x;
+  int n; // size of array here
+  cin >> n;
+  for (int i = 0; i < n; i++)
+  {
+    cin >> a[i];
+  }
+  cin >> x; // the sum we have to find
+  if (isSum(n, a, x))
+  {
+    cout << " We have found the sum";
+  }
+  else
+  {
+    cout << "We did not find the sum";
+  }
+  return 0;
+}
+
+bool isSum(int n, int a[], int x)
+{
+  int f = 0, l = 0; // the first and last
+  int i, j;
+  for (i = 0; i < n - 1; i++)
+  {
+    if (a[i] > a[i + 1])
+      break;
+  }
+  f = (i + 1) % n;
+  l = i;
+  // Now we have the positions of first and last elements
+  // keep moving l or f till they meet
+  while (f != l)
+  {
+    if (a[l] + a[f] == x)
+    {
+      return true;
+    }
+    else if (a[f] + a[l] < x)
+    {
+      f = (f + 1) % n;
+      // making sure there is no overflow
+    }
+    else
+    {
+      l = (n + l - 1) % n;
+    }
+  }
+  return false;
 }
