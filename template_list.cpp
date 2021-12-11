@@ -11,13 +11,12 @@ public:
   node *nex;
 };
 
-node *push_start(node *head, int data) // insert at head
+void push_start(node **head, int data) // insert at head
 {
   node *temp = new node;
   temp->inf = data;
-  temp->nex = head;
-
-  return temp;
+  temp->nex = *head;
+  *head = temp;
 }
 
 void push_end(node **head_node, int data) // insert at end
@@ -100,9 +99,9 @@ node *del(node *start) // delete node at head
 int main()
 {
   node *head = nullptr;
-  head = push_start(head, 2);
-  head = push_start(head, 3);
-  head = push_start(head, 4);
+  push_start(&head, 2);
+  push_start(&head, 3);
+  push_start(&head, 4);
   push_end(&head, 1);
   cout << "\n";
   show(head);
@@ -111,3 +110,11 @@ int main()
   show(head);
   return 0;
 }
+
+/*  https://stackoverflow.com/questions/7271647/what-is-the-reason-for-using-a-double-pointer-when-adding-a-node-in-a-linked-lis
+
+  using double pointer makes sense as the address value is being copied over to the function parameter. Due to the function's scope, 
+  that copy will vanish once it returns
+  By using a double pointer, you will be able to update the original pointer's value. The double pointer will still be copied by value, 
+  but that doesn't matter. All you really care is modifying the original pointer, thereby bypassing the function's scope or stack.
+  */
