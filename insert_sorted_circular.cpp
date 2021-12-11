@@ -52,12 +52,28 @@ void insert_sorted(node **head, int data)
   node *next = *head;
   node *newnode = new node;
   newnode->inf = data;
-  if (*head == nullptr)
+  if (*head == nullptr) // case 1 - empty ll
   {
     newnode->nex = newnode;
     *head = newnode;
   }
-  else
+
+  else if (next->inf >= newnode->inf) // case 2 - insert before head
+  {
+    // if the element has to be inserted just before the head
+    /* If value is smaller than head's value then
+        we need to change next of last node */
+    while (next->nex != *head)
+    {
+      next = next->nex;
+    }
+    // now we have the last node(next) , node before last(newnode) and head
+    next->nex = newnode;
+    newnode->nex = *head;
+    // making newnode as new head as element smaller than head and list is sorted
+    *head = newnode;
+  }
+  else // case 3 - element after head
   {
     while (next->nex != *head) // going back to the same value
     {
